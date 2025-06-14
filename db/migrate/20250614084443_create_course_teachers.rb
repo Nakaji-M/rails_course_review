@@ -6,7 +6,7 @@ class CreateCourseTeachers < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :course_teachers, [:course_id, :teacher_id], primary: true
+    add_index :course_teachers, [:course_id, :teacher_id], unique: true
     add_index :course_teachers, :course_id, name: 'idx_ct_course'
     add_index :course_teachers, :teacher_id, name: 'idx_ct_teacher'
     add_foreign_key :course_teachers, :courses, column: :course_id, name: 'fk_ct_course'

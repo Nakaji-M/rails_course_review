@@ -13,16 +13,12 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
   username: root
-  password: <%= ENV['DATABASE_PASSWORD'] %>
-  socket: /tmp/mysql.sock
+  password: pass
+  host: localhost
 
 development:
   <<: *default
   database: rails_course_review_development
-  username: root
-  password:
-  host: 127.0.0.1
-  port: 3306
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

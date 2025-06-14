@@ -1,6 +1,6 @@
 class CreateOptions < ActiveRecord::Migration[7.2]
   def change
-    create_table :options, id: false do |t|
+    create_table :options, id: :string, limit: 36 do |t|
       t.string :question_id, limit: 36, null: false
       t.text :text_ja, null: false
       t.text :text_en, null: false

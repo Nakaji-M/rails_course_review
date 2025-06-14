@@ -1,6 +1,6 @@
 class CreateAnswers < ActiveRecord::Migration[7.2]
   def change
-    create_table :answers, id: false do |t|
+    create_table :answers, id: :string, limit: 36 do |t|
       t.string :form_token, limit: 255, null: false
       t.string :course_id, limit: 36, null: false
       t.string :question_id, limit: 36, null: false
