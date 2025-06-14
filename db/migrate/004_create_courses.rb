@@ -1,0 +1,20 @@
+class CreateCourses < ActiveRecord::Migration[7.0]
+  def change
+    create_table :courses, id: false do |t|
+      t.string :id, limit: 36, null: false, primary_key: true, default: -> { 'UUID()' }
+      t.string :department_id, limit: 36, null: false
+      t.integer :ocw_id, null: false
+      t.string :course_number, limit: 100, null: false
+      t.string :title_ja, limit: 255, null: false
+      t.string :title_en, limit: 255, null: false
+      t.integer :year, null: false
+      t.integer :start_quarter, null: false
+      t.integer :end_quarter, null: false
+      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP' }
+    end
+
+    add_index :courses, :department_id, name: 'idx_course_department'
+    add_foreign_key :courses, :departments, column: :department_id, name: 'fk_course_department'
+  end
+end
