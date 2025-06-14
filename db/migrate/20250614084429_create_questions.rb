@@ -1,4 +1,4 @@
-class CreateQuestions < ActiveRecord::Migration[7.0]
+class CreateQuestions < ActiveRecord::Migration[7.2]
   def change
     create_table :questions, id: false do |t|
       t.string :id, limit: 36, null: false, primary_key: true, default: -> { 'UUID()' }
@@ -13,8 +13,7 @@ class CreateQuestions < ActiveRecord::Migration[7.0]
       t.boolean :require, null: false, default: false
       t.integer :filter_type, null: true
       t.integer :order, null: false
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP' }
+      t.timestamps
     end
 
     add_index :questions, :form_id

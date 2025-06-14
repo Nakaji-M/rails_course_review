@@ -1,4 +1,4 @@
-class CreateOptions < ActiveRecord::Migration[7.0]
+class CreateOptions < ActiveRecord::Migration[7.2]
   def change
     create_table :options, id: false do |t|
       t.string :question_id, limit: 36, null: false
@@ -6,8 +6,7 @@ class CreateOptions < ActiveRecord::Migration[7.0]
       t.text :text_en, null: false
       t.integer :order, null: false
       t.integer :filter_type, null: false
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP' }
+      t.timestamps
     end
 
     add_index :options, :question_id, name: 'idx_option_question'

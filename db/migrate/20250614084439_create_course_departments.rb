@@ -1,10 +1,9 @@
-class CreateCourseDepartments < ActiveRecord::Migration[7.0]
+class CreateCourseDepartments < ActiveRecord::Migration[7.2]
   def change
     create_table :course_departments, id: false do |t|
       t.string :course_id, limit: 36, null: false
       t.string :department_id, limit: 36, null: false
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP' }
+      t.timestamps
     end
 
     add_index :course_departments, [:course_id, :department_id], primary: true
