@@ -1,7 +1,6 @@
 class CreateQuestions < ActiveRecord::Migration[7.2]
   def change
-    create_table :questions, id: false do |t|
-      t.string :id, limit: 36, null: false, primary_key: true, default: -> { 'UUID()' }
+    create_table :questions, id: :string, limit: 36 do |t|
       t.text :text_ja, null: false
       t.text :text_en, null: false
       t.text :description_ja, null: false

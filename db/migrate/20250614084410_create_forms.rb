@@ -1,7 +1,6 @@
 class CreateForms < ActiveRecord::Migration[7.2]
   def change
-    create_table :forms, id: false do |t|
-      t.string :id, limit: 36, null: false, primary_key: true, default: -> { 'UUID()' }
+    create_table :forms, id: :string, limit: 36 do |t|
       t.integer :year, null: false
       t.timestamps
     end
