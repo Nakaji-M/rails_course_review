@@ -81,9 +81,17 @@ class Api::CoursesController < Api::BaseController
     
     return render_json_error('Course not found', status: :not_found) unless course
     
-    course.destroy!
+    ActiveRecord::Base.transaction do
+      # 関連レコードを明示的に削除
+      course.course_departments.delete_all
+      course.course_teachers.delete_all
+      course.answers.delete_all
+      course.delete
+    end
+    
     render_json_success({ message: 'Course deleted successfully' })
-  rescue ActiveRecord::RecordInvalid => e
-    render_json_error(e.message)
+  rescue => e
+    Rails.logger.error "Course deletion error: #{e.message}"
+    render_json_error("Failed to delete course: #{e.message}")
   end
 end

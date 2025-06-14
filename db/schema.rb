@@ -69,7 +69,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_14_084448) do
     t.index ["year"], name: "uniq_form_year", unique: true
   end
 
-  create_table "options", id: false, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "options", id: { type: :string, limit: 36 }, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "question_id", limit: 36, null: false
     t.text "text_ja", null: false
     t.text "text_en", null: false
@@ -95,12 +95,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_14_084448) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["form_id"], name: "index_questions_on_form_id"
-  end
-
-  create_table "teachers", id: { type: :string, limit: 36 }, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "answers", "courses", name: "fk_answer_course"
