@@ -1,4 +1,7 @@
 class CourseTeacher < ApplicationRecord
+  self.primary_key = nil
+  
   belongs_to :course
-  belongs_to :teacher
+  
+  validates :nameJa, :nameEn, presence: true
 end

@@ -23,7 +23,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_14_084448) do
     t.index ["question_id"], name: "idx_answer_question"
   end
 
-  create_table "course_departments", id: { type: :string, limit: 36 }, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "course_departments", id: false, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "course_id", limit: 36, null: false
     t.string "department_id", limit: 36, null: false
     t.datetime "created_at", null: false
@@ -35,12 +35,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_14_084448) do
 
   create_table "course_teachers", id: false, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "course_id", limit: 36, null: false
-    t.string "teacher_id", limit: 36, null: false
+    t.string "nameJa", null: false
+    t.string "nameEn", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id", "teacher_id"], name: "index_course_teachers_on_course_id_and_teacher_id", unique: true
     t.index ["course_id"], name: "idx_ct_course"
-    t.index ["teacher_id"], name: "idx_ct_teacher"
   end
 
   create_table "courses", id: { type: :string, limit: 36 }, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -109,7 +108,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_14_084448) do
   add_foreign_key "course_departments", "courses", name: "fk_cd_course"
   add_foreign_key "course_departments", "departments", name: "fk_cd_department"
   add_foreign_key "course_teachers", "courses", name: "fk_ct_course"
-  add_foreign_key "course_teachers", "teachers", name: "fk_ct_teacher"
   add_foreign_key "courses", "departments", name: "fk_course_department"
   add_foreign_key "options", "questions", name: "fk_option_question"
   add_foreign_key "questions", "forms", name: "fk_question_form"

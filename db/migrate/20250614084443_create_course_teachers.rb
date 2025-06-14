@@ -2,7 +2,8 @@ class CreateCourseTeachers < ActiveRecord::Migration[7.2]
   def change
     create_table :course_teachers, id: false do |t|
       t.string :course_id, limit: 36, null: false
-      t.string :name, limit: 255, null: false
+      t.string :nameJa, limit: 255, null: false
+      t.string :nameEn, limit: 255, null: false
       t.timestamps
     end
 

@@ -60,11 +60,10 @@ class Api::CoursesController < Api::BaseController
         # 教員の作成・関連付け
         if course_params[:teachers].present?
           course_params[:teachers].each do |teacher_params|
-            teacher = Teacher.find_or_create_by(name: teacher_params[:nameJa])
-            
             CourseTeacher.create!(
               course_id: course.id,
-              teacher_id: teacher.id
+              nameJa: teacher_params[:nameJa],
+              nameEn: teacher_params[:nameEn]
             )
           end
         end
