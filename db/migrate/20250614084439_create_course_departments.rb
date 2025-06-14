@@ -1,6 +1,6 @@
 class CreateCourseDepartments < ActiveRecord::Migration[7.2]
   def change
-    create_table :course_departments, id: :string, limit: 36 do |t|
+    create_table :course_departments, id: false do |t|
       t.string :course_id, limit: 36, null: false
       t.string :department_id, limit: 36, null: false
       t.timestamps
