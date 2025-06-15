@@ -1,15 +1,12 @@
 class CreateOptions < ActiveRecord::Migration[7.2]
   def change
     create_table :options, id: :string, limit: 36 do |t|
-      t.string :question_id, limit: 36, null: false
+      t.references :question, type: :string, limit: 36, null: false, foreign_key: true, index: { name: 'idx_option_question' }
       t.text :text_ja, null: false
       t.text :text_en, null: false
       t.integer :order, null: false
       t.integer :filter_type, null: false
       t.timestamps
     end
-
-    add_index :options, :question_id, name: 'idx_option_question'
-    add_foreign_key :options, :questions, column: :question_id, name: 'fk_option_question'
   end
 end
