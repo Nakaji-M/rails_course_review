@@ -85,7 +85,8 @@ class Api::CoursesController < Api::BaseController
       # 関連レコードを明示的に削除
       course.course_departments.delete_all
       course.course_teachers.delete_all
-      course.answers.delete_all
+      # answersはocw_idで関連付けされているため、ocw_idで削除
+      Answer.where(ocw_id: course.ocw_id).delete_all
       course.delete
     end
     

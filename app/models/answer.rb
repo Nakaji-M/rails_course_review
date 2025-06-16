@@ -1,10 +1,9 @@
 class Answer < ApplicationRecord
   self.primary_key = 'id'
   
-  belongs_to :course
   belongs_to :question
   
-  validates :form_token, :content, presence: true
+  validates :form_token, :content, :ocw_id, presence: true
   
   before_create :generate_uuid
   

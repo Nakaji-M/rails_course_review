@@ -5,7 +5,6 @@ class Course < ApplicationRecord
   has_many :course_departments, dependent: :destroy
   has_many :departments, through: :course_departments
   has_many :course_teachers, dependent: :destroy
-  has_many :answers, dependent: :destroy
   
   validates :ocw_id, :course_number, :title_ja, :title_en, :year, :start_quarter, :end_quarter, presence: true
   

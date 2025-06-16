@@ -12,14 +12,14 @@
 
 ActiveRecord::Schema[7.2].define(version: 2025_06_14_084448) do
   create_table "answers", id: { type: :string, limit: 36 }, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "course_id", limit: 36, null: false
     t.string "question_id", limit: 36, null: false
     t.string "form_token", null: false
+    t.integer "ocw_id", null: false
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "idx_answer_course"
-    t.index ["form_token", "course_id", "question_id"], name: "uniq_answer_token_course_question", unique: true
+    t.index ["form_token", "ocw_id", "question_id"], name: "uniq_answer_token_ocw_question", unique: true
+    t.index ["ocw_id"], name: "idx_answer_ocw_id"
     t.index ["question_id"], name: "fk_rails_3d5ed4418f"
   end
 
@@ -97,7 +97,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_14_084448) do
     t.index ["form_id"], name: "index_questions_on_form_id"
   end
 
-  add_foreign_key "answers", "courses"
   add_foreign_key "answers", "questions"
   add_foreign_key "course_departments", "courses"
   add_foreign_key "course_departments", "departments"
