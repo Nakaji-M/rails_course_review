@@ -72,7 +72,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_14_084448) do
   create_table "options", id: { type: :string, limit: 36 }, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "question_id", limit: 36, null: false
     t.integer "order", null: false
-    t.integer "filter_type", null: false
+    t.integer "filter_type"
     t.text "text_ja", null: false
     t.text "text_en", null: false
     t.datetime "created_at", null: false

@@ -13,22 +13,24 @@ class Api::FormsController < Api::BaseController
       lang: lang,
       year: form.year,
       questions: questions.map do |question|
-        {
+        question_hash = {
           id: question.id,
           require: question.require,
           type: question.type,
           text: lang == 'ja' ? question.text_ja : question.text_en,
           description: lang == 'ja' ? question.description_ja : question.description_en,
           placeholder: lang == 'ja' ? question.placeholder_ja : question.placeholder_en,
-          filterType: question.filter_type,
           options: question.options.order(:order).map do |option|
-            {
+            option_hash = {
               id: option.id,
-              text: lang == 'ja' ? option.text_ja : option.text_en,
-              questionFilterType: option.filter_type
+              text: lang == 'ja' ? option.text_ja : option.text_en
             }
+            option_hash[:questionFilterType] = option.filter_type unless option.filter_type.nil?
+            option_hash
           end
         }
+        question_hash[:filterType] = question.filter_type unless question.filter_type.nil?
+        question_hash
       end
     }
     

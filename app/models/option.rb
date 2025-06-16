@@ -3,7 +3,7 @@ class Option < ApplicationRecord
   
   belongs_to :question
   
-  validates :text_ja, :text_en, :order, :filter_type, presence: true
+  validates :text_ja, :text_en, :order, presence: true
   
   before_create :generate_uuid
   
