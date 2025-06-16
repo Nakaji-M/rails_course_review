@@ -32,38 +32,51 @@ class Api::AnswersController < Api::BaseController
   
   def create
     form_token = params[:formToken]
-    course_id = params[:courseId]
+    ocw_id = params[:ocwId]
     answers_data = params[:answers]
-    
-    # course_idからocw_idを取得
-    if course_id.length == 36
-      # UUID形式（36文字）の場合はcourseテーブルから対応するocw_idを取得
-      course = Course.find_by(id: course_id)
-      if course
-        ocw_id = course.ocw_id
-      else
-        return render_json_error('Course not found', status: :not_found)
-      end
-    elsif course_id.match?(/\A\d+\z/)
-      # 数値の場合はそのままocw_idとして使用
-      ocw_id = course_id.to_i
-    else
-      return render_json_error('Invalid course_id format', status: :bad_request)
+
+    # 必須パラメータのチェック
+    unless form_token && ocw_id && answers_data
+      render_json_error("Missing required parameters", status: :bad_request) and return
     end
-    
+
     ActiveRecord::Base.transaction do
       answers_data.each do |answer_params|
-        Answer.create!(
+        content = answer_params[:content]
+        question_id = answer_params[:questionId]
+        
+        # questionの存在確認
+        question = Question.find_by(id: question_id)
+        unless question
+          raise ActiveRecord::RecordNotFound, "Question not found: #{question_id}"
+        end
+
+        # 既存のanswerを検索（更新 or 作成）
+        answer = Answer.find_by(
           form_token: form_token,
           ocw_id: ocw_id,
-          question_id: answer_params[:questionId],
-          content: answer_params[:content]
+          question_id: question.id
         )
+
+        if answer.present?
+          # 既存のanswerを更新
+          answer.update!(content: content)
+        else
+          # 新しいanswerを作成
+          Answer.create!(
+            form_token: form_token,
+            ocw_id: ocw_id,
+            question_id: question.id,
+            content: content
+          )
+        end
       end
     end
     
     render_json_success({ message: 'Answers created successfully' }, status: :created)
   rescue ActiveRecord::RecordInvalid => e
-    render_json_error(e.message)
+    render_json_error(e.message, status: :unprocessable_entity)
+  rescue ActiveRecord::RecordNotFound => e
+    render_json_error(e.message, status: :not_found)
   end
 end
