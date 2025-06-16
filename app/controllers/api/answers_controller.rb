@@ -31,7 +31,7 @@ class Api::AnswersController < Api::BaseController
   end
   
   def create
-    form_token = params[:formToken]
+    form_token = params[:formToken] || params[:appToken]
     ocw_id = params[:ocwId]
     answers_data = params[:answers]
 
