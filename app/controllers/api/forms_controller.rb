@@ -23,7 +23,7 @@ class Api::FormsController < Api::BaseController
           filterType: question.filter_type,
           options: question.options.order(:order).map do |option|
             {
-              id: option.question_id, # optionsテーブルにはidがないため
+              id: option.id,
               text: lang == 'ja' ? option.text_ja : option.text_en,
               questionFilterType: option.filter_type
             }
