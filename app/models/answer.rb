@@ -3,7 +3,8 @@ class Answer < ApplicationRecord
   
   belongs_to :question
   
-  validates :form_token, :content, :ocw_id, presence: true
+  validates :form_token, :ocw_id, presence: true
+  validates :content, presence: true, if: :required_question?
   
   before_create :generate_uuid
   
@@ -11,5 +12,9 @@ class Answer < ApplicationRecord
   
   def generate_uuid
     self.id = SecureRandom.uuid if id.blank?
+  end
+
+  def required_question?
+    question&.require
   end
 end

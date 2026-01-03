@@ -58,6 +58,14 @@ class Api::AnswersController < Api::BaseController
           question_id: question.id
         )
 
+        # 必須でない質問への回答が空の場合の処理
+        if content.blank? && !question.require
+          if answer.present?
+            answer.destroy!
+          end
+          next
+        end
+
         if answer.present?
           # 既存のanswerを更新
           answer.update!(content: content)
